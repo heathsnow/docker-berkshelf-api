@@ -4,7 +4,7 @@ MAINTAINER Hans Rakers <h.rakers@global.leaseweb.com>
 
 COPY scripts /scripts
 
-RUN apk update && apk --update add bash build-base ruby-dev tzdata && \
+RUN apk update && apk --update add bash build-base ruby-dev libarchive-dev tzdata && \
     addgroup -g 262 berkshelf && \
     adduser -u 262 -G berkshelf -h /home/berkshelf -s /bin/bash -S berkshelf && \
     mkdir -p /home/berkshelf/.berkshelf/api-server && \
