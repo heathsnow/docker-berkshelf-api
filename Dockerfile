@@ -4,8 +4,7 @@ MAINTAINER Hans Rakers <h.rakers@global.leaseweb.com>
 
 COPY scripts /scripts
 
-RUN apk update && apk --update add bash build-base ruby-dev tzdata libc-dev && \
-    rm -rf /var/cache/apk/* && \
+RUN apk update && apk --update add bash build-base ruby-dev tzdata && \
     addgroup -g 262 berkshelf && \
     adduser -u 262 -G berkshelf -h /home/berkshelf -s /bin/bash -S berkshelf && \
     mkdir -p /home/berkshelf/.berkshelf/api-server && \
@@ -14,7 +13,9 @@ RUN apk update && apk --update add bash build-base ruby-dev tzdata libc-dev && \
     mv /scripts/run_berks_api.sh /usr/bin/run_berks_api.sh && \
     chmod 755 /usr/bin/run_berks_api.sh && \
     cd /scripts && bundle install && \
-    ln -s /usr/local/bundle/bin/bundle /usr/bin/bundle
+    ln -s /usr/local/bundle/bin/bundle /usr/bin/bundle && \
+    apk del build-base ruby-dev && \
+    rm -rf /var/cache/apk/*
 
 EXPOSE 26200
 ENTRYPOINT ["/bin/bash", "-c"]
